@@ -3,209 +3,377 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <title>EUROPA — Quiz Européen</title>
 
 <style>
-/* =========================
-   VARIABLES
-========================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
 :root {
-    --blue: #061b3a;
-    --blue2: #0b2d5c;
-    --gold: #ffd700;
+    --blue: #061942;
+    --blue2: #092b68;
+    --blue3: #12458d;
+    --gold: #ffd447;
+    --gold-light: #ffed8a;
+    --white: #f4f8ff;
+    --muted: #8da4c7;
+    --green: #52e89a;
     --red: #ff334d;
-    --white: #f5f7fa;
-    --green: #21d07a;
 }
 
-/* =========================
-   BASE
-========================= */
 * {
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
     margin: 0;
     min-height: 100vh;
     background:
-        radial-gradient(circle at top, #12386d 0%, var(--blue) 45%, #020b18 100%);
+        radial-gradient(circle at 50% -10%, #174995 0%, transparent 42%),
+        linear-gradient(145deg, #02091b, #061b43 55%, #020817);
     color: var(--white);
-    font-family: "Inter", Arial, sans-serif;
+    font-family: Inter, sans-serif;
 }
 
-/* =========================
-   CONTENEUR
-========================= */
-.container {
-    width: min(900px, 92%);
-    margin: auto;
-    padding: 40px 0;
+/* Fond */
+.background {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
 }
 
-/* =========================
-   HEADER
-========================= */
-header {
-    text-align: center;
-    margin-bottom: 35px;
+.grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(100,160,230,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(100,160,230,.035) 1px, transparent 1px);
+    background-size: 45px 45px;
 }
 
-.logo {
-    display: inline-block;
+.glow {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: rgba(255,212,71,.045);
+    filter: blur(70px);
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Étoiles */
+.stars {
+    position: fixed;
+    width: 150px;
+    height: 150px;
+    right: 5px;
+    top: 10px;
+    opacity: .12;
+}
+
+.stars span {
+    position: absolute;
     color: var(--gold);
-    font-family: "JetBrains Mono", monospace;
-    font-weight: 800;
-    letter-spacing: 4px;
-    font-size: 18px;
-    margin-bottom: 15px;
+    font-size: 12px;
 }
 
-h1 {
+.stars span:nth-child(1) { left: 65px; top: 0; }
+.stars span:nth-child(2) { left: 95px; top: 8px; }
+.stars span:nth-child(3) { left: 118px; top: 30px; }
+.stars span:nth-child(4) { left: 128px; top: 60px; }
+.stars span:nth-child(5) { left: 118px; top: 90px; }
+.stars span:nth-child(6) { left: 95px; top: 112px; }
+.stars span:nth-child(7) { left: 65px; top: 120px; }
+.stars span:nth-child(8) { left: 35px; top: 112px; }
+.stars span:nth-child(9) { left: 12px; top: 90px; }
+.stars span:nth-child(10) { left: 2px; top: 60px; }
+.stars span:nth-child(11) { left: 12px; top: 30px; }
+.stars span:nth-child(12) { left: 35px; top: 8px; }
+
+/* Application */
+.app {
+    position: relative;
+    width: min(680px, 94vw);
+    margin: 20px auto;
+    min-height: calc(100vh - 40px);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.header {
+    padding: 24px 18px 20px;
+    border-bottom: 1px solid rgba(150,190,240,.16);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.eu-logo {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    border: 1px solid rgba(255,212,71,.65);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-family: Georgia, serif;
+    font-size: 24px;
+    box-shadow: 0 0 20px rgba(255,212,71,.1);
+}
+
+.header h1 {
     margin: 0;
-    font-size: clamp(30px, 6vw, 55px);
+    font-size: 17px;
     letter-spacing: 2px;
 }
 
-.subtitle {
-    margin-top: 10px;
-    opacity: .7;
+.header p {
+    margin: 5px 0 0;
+    color: var(--muted);
+    font-family: "JetBrains Mono";
+    font-size: 8px;
+    letter-spacing: 1.5px;
 }
 
-/* =========================
-   PROGRESS
-========================= */
+/* Intro */
+.intro {
+    padding: 28px 18px 15px;
+}
+
+.badge {
+    display: inline-block;
+    color: var(--gold);
+    border: 1px solid rgba(255,212,71,.3);
+    padding: 7px 10px;
+    font-family: "JetBrains Mono";
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    margin-bottom: 14px;
+}
+
+.intro h2 {
+    margin: 0;
+    font-size: clamp(25px, 7vw, 38px);
+    line-height: 1.1;
+}
+
+.intro h2 span {
+    color: var(--gold);
+}
+
+.intro-text {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.7;
+    margin-top: 13px;
+}
+
+/* Progression */
 .progress-area {
-    margin-bottom: 25px;
+    padding: 10px 18px 25px;
 }
 
-.progress-info {
+.progress-top {
     display: flex;
     justify-content: space-between;
-    font-family: "JetBrains Mono", monospace;
-    font-size: 13px;
+    font-family: "JetBrains Mono";
+    font-size: 9px;
+    color: var(--muted);
     margin-bottom: 8px;
 }
 
-.progress-bar {
+.progress-top strong {
+    color: var(--gold);
+}
+
+.progress {
     height: 5px;
-    background: rgba(255,255,255,.1);
+    background: rgba(255,255,255,.08);
     border-radius: 10px;
     overflow: hidden;
 }
 
-.progress {
+.progress-bar {
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, var(--gold), #fff1a3);
+    background: linear-gradient(90deg, var(--gold), #fff0a0);
+    box-shadow: 0 0 12px rgba(255,212,71,.4);
     transition: width .4s ease;
 }
 
-/* =========================
-   QUIZ
-========================= */
+/* Carte question */
 .quiz-card {
-    background: rgba(7, 28, 57, .82);
-    border: 1px solid rgba(255,215,0,.2);
-    border-radius: 18px;
-    padding: clamp(25px, 5vw, 50px);
+    margin: 0 0 25px;
+    padding: 24px 18px;
+    border: 1px solid rgba(120,170,230,.2);
+    background:
+        linear-gradient(145deg, rgba(11,40,88,.72), rgba(3,14,34,.82));
     box-shadow:
-        0 20px 60px rgba(0,0,0,.35),
-        inset 0 0 30px rgba(255,255,255,.02);
-    backdrop-filter: blur(10px);
+        0 20px 60px rgba(0,0,0,.2),
+        inset 0 1px rgba(255,255,255,.035);
 }
 
-.question-number {
+.category {
     color: var(--gold);
-    font-family: "JetBrains Mono", monospace;
-    font-size: 14px;
-    margin-bottom: 15px;
+    font-family: "JetBrains Mono";
+    font-size: 8px;
+    letter-spacing: 2px;
+    margin-bottom: 17px;
 }
 
 .question {
-    font-size: clamp(21px, 4vw, 32px);
-    line-height: 1.3;
-    margin-bottom: 35px;
+    font-size: clamp(20px, 5.5vw, 29px);
+    line-height: 1.35;
+    font-weight: 700;
+    margin-bottom: 25px;
 }
 
+/* Boutons */
 .answers {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
+    gap: 12px;
 }
 
 .answer {
-    border: 1px solid rgba(255,255,255,.15);
-    background: rgba(255,255,255,.04);
+    min-height: 70px;
+    border: 1px solid rgba(130,175,230,.28);
+    background: rgba(255,255,255,.025);
     color: white;
-    padding: 18px;
-    border-radius: 12px;
-    font-size: 17px;
+    font-family: "JetBrains Mono";
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
     cursor: pointer;
-    transition: .25s ease;
+    transition: .2s;
 }
 
-.answer:hover {
-    border-color: var(--gold);
+.answer:hover,
+.answer:active {
     transform: translateY(-2px);
-    background: rgba(255,215,0,.08);
+}
+
+.answer.true:hover {
+    border-color: var(--green);
+    background: rgba(82,232,154,.08);
+}
+
+.answer.false:hover {
+    border-color: var(--red);
+    background: rgba(255,86,101,.08);
 }
 
 .answer.correct {
-    background: rgba(33,208,122,.18);
     border-color: var(--green);
+    background: rgba(82,232,154,.12);
+    color: var(--green);
 }
 
 .answer.wrong {
-    background: rgba(255,51,77,.18);
     border-color: var(--red);
+    background: rgba(255,86,101,.12);
+    color: var(--red);
 }
 
-/* =========================
-   RESULTAT
-========================= */
+.answer:disabled {
+    cursor: default;
+}
+
+/* Explication */
+.explanation {
+    display: none;
+    margin-top: 18px;
+    padding: 15px;
+    border-left: 2px solid var(--gold);
+    background: rgba(255,212,71,.035);
+    color: #a7bad6;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.explanation strong {
+    color: var(--gold-light);
+}
+
+/* Bouton suivant */
+.next {
+    display: none;
+    width: 100%;
+    margin-top: 15px;
+    min-height: 54px;
+    border: 1px solid rgba(255,212,71,.5);
+    background: rgba(255,212,71,.08);
+    color: var(--gold-light);
+    font-family: "JetBrains Mono";
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+/* Résultat */
 .result {
     display: none;
     text-align: center;
-    background: rgba(7, 28, 57, .88);
-    border: 1px solid rgba(255,215,0,.25);
-    border-radius: 20px;
-    padding: 45px 25px;
-    box-shadow: 0 20px 60px rgba(0,0,0,.4);
+    padding: 30px 18px;
 }
 
 .result-logo {
     color: var(--gold);
-    font-family: "JetBrains Mono", monospace;
+    font-size: 14px;
     letter-spacing: 3px;
-    font-size: 13px;
-    margin-bottom: 20px;
+    font-family: "JetBrains Mono";
 }
 
 .score {
-    font-size: 40px;
-    font-weight: 800;
+    font-family: "JetBrains Mono";
+    font-size: clamp(65px, 20vw, 110px);
+    font-weight: 700;
+    color: white;
+    margin: 15px 0 0;
+    text-shadow: 0 0 35px rgba(255,212,71,.15);
+}
+
+.score span {
+    color: var(--gold);
+}
+
+.result h2 {
+    font-size: 25px;
+    margin: 5px 0 12px;
+}
+
+.result p {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.7;
 }
 
 /* =========================
    COOPERATION ROUGE
 ========================= */
+
 .final-letter {
     display: none;
     margin: 20px auto 5px;
     font-family: "JetBrains Mono", monospace;
-    font-size: clamp(40px, 10vw, 80px);
+    font-size: clamp(38px, 11vw, 75px);
     font-weight: 800;
     line-height: 1;
-    letter-spacing: 6px;
+    letter-spacing: 5px;
     color: var(--red);
-
+    white-space: nowrap;
     text-shadow:
         0 0 10px rgba(255,51,77,.8),
         0 0 30px rgba(255,51,77,.55),
         0 0 70px rgba(255,51,77,.35);
-
     animation:
         revealCooperation .8s ease-out forwards,
         pulseCooperation 1.8s ease-in-out .8s infinite;
@@ -214,14 +382,19 @@ h1 {
 @keyframes revealCooperation {
     0% {
         opacity: 0;
-        transform: scale(.5);
+        transform: scale(.2) rotate(-15deg);
         filter: blur(15px);
+    }
+
+    60% {
+        opacity: 1;
+        transform: scale(1.15) rotate(4deg);
+        filter: blur(0);
     }
 
     100% {
         opacity: 1;
-        transform: scale(1);
-        filter: blur(0);
+        transform: scale(1) rotate(0);
     }
 }
 
@@ -235,54 +408,68 @@ h1 {
 
     50% {
         text-shadow:
-            0 0 15px rgba(255,51,77,1),
-            0 0 45px rgba(255,51,77,.75),
-            0 0 90px rgba(255,51,77,.45);
+            0 0 20px rgba(255,51,77,1),
+            0 0 50px rgba(255,51,77,.8),
+            0 0 100px rgba(255,51,77,.5);
     }
 }
 
-#resultTitle {
-    font-size: 28px;
-    margin: 20px 0 10px;
-}
-
-#resultText {
-    opacity: .75;
-    line-height: 1.6;
-}
-
-/* =========================
-   BOUTON
-========================= */
+/* Bouton recommencer */
 .restart {
-    margin-top: 25px;
+    margin-top: 22px;
+    width: 100%;
+    min-height: 55px;
     border: 1px solid var(--gold);
-    background: transparent;
-    color: var(--gold);
-    padding: 13px 25px;
-    border-radius: 8px;
-    font-family: "JetBrains Mono", monospace;
-    cursor: pointer;
-    transition: .25s;
+    background: rgba(255,212,71,.08);
+    color: var(--gold-light);
+    font-family: "JetBrains Mono";
+    font-weight: 700;
+    letter-spacing: 2px;
 }
 
-.restart:hover {
-    background: var(--gold);
-    color: var(--blue);
+/* Footer */
+.footer {
+    margin-top: auto;
+    padding: 22px 18px;
+    text-align: center;
+    color: #425b7d;
+    font-family: "JetBrains Mono";
+    font-size: 7px;
+    letter-spacing: 1px;
 }
 
-/* =========================
-   MOBILE
-========================= */
-@media (max-width: 600px) {
+/* Desktop */
+@media (min-width: 700px) {
+
+    body {
+        padding: 20px;
+    }
+
+    .app {
+        border: 1px solid rgba(120,170,230,.18);
+        background: rgba(3,12,29,.35);
+        box-shadow: 0 30px 100px rgba(0,0,0,.45);
+    }
+
+    .quiz-card {
+        margin-left: 18px;
+        margin-right: 18px;
+    }
+}
+
+@media (max-width: 430px) {
 
     .answers {
         grid-template-columns: 1fr;
     }
 
+    .answer {
+        min-height: 62px;
+    }
+
     .final-letter {
-        font-size: clamp(30px, 9vw, 55px);
-        letter-spacing: 3px;
+        font-size: clamp(30px, 9vw, 50px);
+        letter-spacing: 2px;
     }
 }
 </style>
@@ -290,138 +477,277 @@ h1 {
 
 <body>
 
-<div class="container">
-
-<header>
-    <div class="logo">EUROPA // UNION EUROPÉENNE</div>
-    <h1>Quiz Européen</h1>
-    <div class="subtitle">
-        Testez vos connaissances sur l'Union européenne
-    </div>
-</header>
-
-<div class="progress-area">
-    <div class="progress-info">
-        <span id="questionCounter">QUESTION 1 / 15</span>
-        <span id="scoreCounter">SCORE : 0</span>
-    </div>
-
-    <div class="progress-bar">
-        <div class="progress" id="progress"></div>
-    </div>
+<div class="background">
+    <div class="grid"></div>
+    <div class="glow"></div>
 </div>
 
-<section class="quiz-card" id="quiz">
+<div class="stars">
+    <span>★</span><span>★</span><span>★</span><span>★</span>
+    <span>★</span><span>★</span><span>★</span><span>★</span>
+    <span>★</span><span>★</span><span>★</span><span>★</span>
+</div>
 
-    <div class="question-number" id="questionNumber">
-        QUESTION 01
+<div class="app">
+
+    <header class="header">
+
+        <div class="eu-logo">
+            E
+        </div>
+
+        <div>
+            <h1>EUROPA // QUIZ</h1>
+            <p>EUROPEAN UNION • CULTURE GÉNÉRALE</p>
+        </div>
+
+    </header>
+
+    <section class="intro">
+
+        <div class="badge">
+            MISSION CULTURE EUROPÉENNE
+        </div>
+
+        <h2>
+            Vrai ou <span>Faux ?</span>
+        </h2>
+
+        <div class="intro-text">
+            Teste tes connaissances sur l'Europe et
+            l'Union européenne. 15 questions t'attendent.
+            Une seule réponse par question.
+        </div>
+
+    </section>
+
+    <div class="progress-area">
+
+        <div class="progress-top">
+
+            <span id="questionCounter">
+                QUESTION 1 / 15
+            </span>
+
+            <strong id="scoreCounter">
+                SCORE : 0
+            </strong>
+
+        </div>
+
+        <div class="progress">
+
+            <div
+                class="progress-bar"
+                id="progressBar">
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="question" id="question">
-        La France est membre de l'Union européenne.
-    </div>
+    <main id="quiz">
 
-    <div class="answers">
-        <button class="answer" onclick="answer(true)">VRAI</button>
-        <button class="answer" onclick="answer(false)">FAUX</button>
-    </div>
+        <div class="quiz-card">
 
-</section>
+            <div
+                class="category"
+                id="category">
+                UNION EUROPÉENNE
+            </div>
 
-<section class="result" id="result">
+            <div
+                class="question"
+                id="question">
+                Chargement...
+            </div>
 
-    <div class="result-logo">
-        EUROPA // MISSION TERMINÉE
-    </div>
+            <div class="answers">
 
-    <div class="score">
-        <span id="finalScore">0</span>/15
-    </div>
+                <button
+                    class="answer true"
+                    id="trueButton"
+                    onclick="answer(true)">
+                    ✓ VRAI
+                </button>
 
-    <!-- COOPERATION APPARAÎT ICI -->
-    <div class="final-letter" id="finalLetter">
-        COOPERATION
-    </div>
+                <button
+                    class="answer false"
+                    id="falseButton"
+                    onclick="answer(false)">
+                    ✕ FAUX
+                </button>
 
-    <h2 id="resultTitle">
-        Analyse terminée
-    </h2>
+            </div>
 
-    <p id="resultText">
-        Résultat...
-    </p>
+            <div
+                class="explanation"
+                id="explanation">
+            </div>
 
-    <button class="restart" onclick="restartQuiz()">
-        ↻ RECOMMENCER
-    </button>
+            <button
+                class="next"
+                id="nextButton"
+                onclick="nextQuestion()">
+                QUESTION SUIVANTE →
+            </button>
 
-</section>
+        </div>
+
+    </main>
+
+    <!-- ÉCRAN FINAL -->
+
+    <section
+        class="result"
+        id="result">
+
+        <div class="result-logo">
+            EUROPA // MISSION TERMINÉE
+        </div>
+
+        <div class="score">
+            <span id="finalScore">0</span>/15
+        </div>
+
+        <!-- COOPERATION APPARAÎT ICI -->
+        <div
+            class="final-letter"
+            id="finalLetter">
+            COOPERATION
+        </div>
+
+        <h2 id="resultTitle">
+            Analyse terminée
+        </h2>
+
+        <p id="resultText">
+            Résultat...
+        </p>
+
+        <button
+            class="restart"
+            onclick="restartQuiz()">
+            ↻ RECOMMENCER
+        </button>
+
+    </section>
+
+    <footer class="footer">
+        EUROPA QUIZ // EDUCATIONAL PROTOCOL // EU-2026
+    </footer>
 
 </div>
 
 <script>
 
 const questions = [
+
     {
-        question: "La France est membre de l'Union européenne.",
-        answer: true
+        category: "UNION EUROPÉENNE",
+        question: "L'Union européenne compte actuellement 27 États membres.",
+        answer: true,
+        explanation: "Vrai. Depuis le départ du Royaume-Uni en 2020, l'Union européenne compte 27 États membres."
     },
+
     {
-        question: "L'euro est la monnaie officielle de tous les pays de l'Union européenne.",
-        answer: false
+        category: "MONNAIE",
+        question: "Tous les pays de l'Union européenne utilisent l'euro.",
+        answer: false,
+        explanation: "Faux. Plusieurs pays de l'UE utilisent encore leur monnaie nationale, comme la Pologne, la Suède ou le Danemark."
     },
+
     {
-        question: "Le Parlement européen est élu directement par les citoyens.",
-        answer: true
+        category: "INSTITUTIONS",
+        question: "Les citoyens de l'Union européenne élisent directement les députés européens.",
+        answer: true,
+        explanation: "Vrai. Les élections européennes permettent aux citoyens de choisir directement leurs représentants au Parlement européen."
     },
+
     {
-        question: "Le siège principal de la Commission européenne se trouve à Bruxelles.",
-        answer: true
+        category: "EUROPE",
+        question: "La Norvège est membre de l'Union européenne.",
+        answer: false,
+        explanation: "Faux. La Norvège ne fait pas partie de l'UE, même si elle entretient des relations étroites avec elle."
     },
+
     {
-        question: "La Suisse fait partie de l'Union européenne.",
-        answer: false
-    },
-    {
-        question: "L'Union européenne compte 27 États membres.",
-        answer: true
-    },
-    {
+        category: "SYMBOLES EUROPÉENS",
         question: "Le drapeau européen comporte 12 étoiles.",
-        answer: true
+        answer: true,
+        explanation: "Vrai. Le drapeau de l'Union européenne comporte 12 étoiles dorées disposées en cercle."
     },
+
     {
-        question: "Le Royaume-Uni est toujours membre de l'Union européenne.",
-        answer: false
+        category: "HISTOIRE",
+        question: "Le traité de Maastricht a joué un rôle majeur dans la création de l'Union européenne.",
+        answer: true,
+        explanation: "Vrai. Le traité de Maastricht, signé en 1992, a officiellement créé l'Union européenne."
     },
+
     {
+        category: "EUROPE",
+        question: "La Suisse est membre de l'Union européenne.",
+        answer: false,
+        explanation: "Faux. La Suisse n'est pas membre de l'UE, même si elle possède de nombreux accords avec celle-ci."
+    },
+
+    {
+        category: "HISTOIRE",
+        question: "Le Royaume-Uni est encore membre de l'Union européenne.",
+        answer: false,
+        explanation: "Faux. Le Royaume-Uni a quitté officiellement l'Union européenne le 31 janvier 2020."
+    },
+
+    {
+        category: "ESPACE SCHENGEN",
+        question: "L'espace Schengen et l'Union européenne sont exactement la même chose.",
+        answer: false,
+        explanation: "Faux. Ce sont deux ensembles différents. Certains pays de l'UE ne sont pas dans Schengen et certains pays de Schengen ne sont pas membres de l'UE."
+    },
+
+    {
+        category: "INSTITUTIONS",
         question: "Le Parlement européen siège notamment à Strasbourg.",
-        answer: true
+        answer: true,
+        explanation: "Vrai. Strasbourg est le siège officiel du Parlement européen, qui travaille également à Bruxelles et Luxembourg."
     },
+
     {
-        question: "Tous les pays européens utilisent l'euro.",
-        answer: false
+        category: "SYMBOLES",
+        question: "L'hymne européen est basé sur l'Ode à la joie de Beethoven.",
+        answer: true,
+        explanation: "Vrai. La mélodie de l'Ode à la joie de Beethoven est utilisée comme hymne européen."
     },
+
     {
-        question: "La libre circulation des personnes est l'un des principes de l'Union européenne.",
-        answer: true
+        category: "EUROPE",
+        question: "L'Islande est membre de l'Union européenne.",
+        answer: false,
+        explanation: "Faux. L'Islande n'est pas membre de l'UE, même si elle fait partie de l'espace Schengen."
     },
+
     {
-        question: "L'Union européenne possède une armée unique.",
-        answer: false
+        category: "FRANCE",
+        question: "La France est l'un des États fondateurs de la construction européenne.",
+        answer: true,
+        explanation: "Vrai. La France fait partie des pays à l'origine de la construction européenne après la Seconde Guerre mondiale."
     },
+
     {
-        question: "Le traité de Maastricht a contribué à créer l'Union européenne.",
-        answer: true
+        category: "UNION EUROPÉENNE",
+        question: "Tous les pays de l'Union européenne ont adopté l'euro.",
+        answer: false,
+        explanation: "Faux. L'euro est utilisé par les pays appartenant à la zone euro, qui ne comprend pas tous les États membres de l'UE."
     },
+
     {
-        question: "La Belgique est membre fondateur de la construction européenne.",
-        answer: true
-    },
-    {
+        category: "CULTURE EUROPÉENNE",
         question: "La Journée de l'Europe est célébrée le 9 mai.",
-        answer: true
+        answer: true,
+        explanation: "Vrai. Le 9 mai commémore notamment la déclaration Schuman de 1950, considérée comme un moment fondateur de la construction européenne."
     }
+
 ];
 
 let currentQuestion = 0;
@@ -434,80 +760,154 @@ function loadQuestion() {
 
     const q = questions[currentQuestion];
 
-    document.getElementById("questionNumber").textContent =
-        `QUESTION ${String(currentQuestion + 1).padStart(2, "0")}`;
+    document.getElementById("category").textContent =
+        q.category;
+
+    document.getElementById("question").textContent =
+        q.question;
 
     document.getElementById("questionCounter").textContent =
         `QUESTION ${currentQuestion + 1} / ${questions.length}`;
 
-    document.getElementById("question").textContent = q.question;
-
     document.getElementById("scoreCounter").textContent =
         `SCORE : ${score}`;
 
-    document.getElementById("progress").style.width =
+    document.getElementById("progressBar").style.width =
         `${(currentQuestion / questions.length) * 100}%`;
 
-    const buttons = document.querySelectorAll(".answer");
+    document.getElementById("explanation").style.display =
+        "none";
+
+    document.getElementById("nextButton").style.display =
+        "none";
+
+    const buttons =
+        document.querySelectorAll(".answer");
 
     buttons.forEach(button => {
-        button.classList.remove("correct", "wrong");
+
         button.disabled = false;
+
+        button.classList.remove(
+            "correct",
+            "wrong"
+        );
+
     });
+
 }
 
-function answer(choice) {
+function answer(userAnswer) {
 
     if (answered) return;
 
     answered = true;
 
-    const correctAnswer = questions[currentQuestion].answer;
-    const buttons = document.querySelectorAll(".answer");
+    const q = questions[currentQuestion];
+
+    const trueButton =
+        document.getElementById("trueButton");
+
+    const falseButton =
+        document.getElementById("falseButton");
+
+    const explanation =
+        document.getElementById("explanation");
+
+    trueButton.disabled = true;
+    falseButton.disabled = true;
 
     const selectedButton =
-        choice ? buttons[0] : buttons[1];
+        userAnswer ? trueButton : falseButton;
 
-    if (choice === correctAnswer) {
+    const correctButton =
+        q.answer ? trueButton : falseButton;
+
+    if (userAnswer === q.answer) {
+
         score++;
+
         selectedButton.classList.add("correct");
+
     } else {
+
         selectedButton.classList.add("wrong");
+
+        correctButton.classList.add("correct");
+
     }
 
     document.getElementById("scoreCounter").textContent =
         `SCORE : ${score}`;
 
-    buttons.forEach(button => {
-        button.disabled = true;
+    explanation.innerHTML = `
+        <strong>
+            ${userAnswer === q.answer
+                ? "✓ BONNE RÉPONSE"
+                : "✕ MAUVAISE RÉPONSE"}
+        </strong>
+        <br><br>
+        ${q.explanation}
+    `;
+
+    explanation.style.display = "block";
+
+    const nextButton =
+        document.getElementById("nextButton");
+
+    nextButton.style.display = "block";
+
+    if (currentQuestion === questions.length - 1) {
+
+        nextButton.textContent =
+            "VOIR MON RÉSULTAT →";
+
+    }
+
+}
+
+function nextQuestion() {
+
+    currentQuestion++;
+
+    if (currentQuestion >= questions.length) {
+
+        showResult();
+
+        return;
+
+    }
+
+    loadQuestion();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
     });
 
-    setTimeout(() => {
-
-        currentQuestion++;
-
-        if (currentQuestion < questions.length) {
-            loadQuestion();
-        } else {
-            showResult();
-        }
-
-    }, 700);
 }
 
 function showResult() {
 
-    document.getElementById("quiz").style.display = "none";
-    document.querySelector(".progress-area").style.display = "none";
-    document.getElementById("result").style.display = "block";
+    document.getElementById("quiz").style.display =
+        "none";
 
-    document.getElementById("finalScore").textContent = score;
+    document.querySelector(".progress-area").style.display =
+        "none";
 
-    /* AFFICHAGE DE COOPERATION */
+    document.getElementById("result").style.display =
+        "block";
+
+    document.getElementById("finalScore").textContent =
+        score;
+
+    /* AFFICHAGE DE COOPERATION ROUGE */
+
     const finalLetter =
         document.getElementById("finalLetter");
 
-    finalLetter.style.display = "block";
+    finalLetter.style.display =
+        "block";
 
     const title =
         document.getElementById("resultTitle");
@@ -517,47 +917,72 @@ function showResult() {
 
     if (score === 15) {
 
-        title.textContent = "EXCELLENT — MISSION ACCOMPLIE";
+        title.textContent =
+            "EXPERT EUROPÉEN";
 
         text.textContent =
-            "Votre connaissance de l'Union européenne est remarquable.";
+            "Parfait ! Tes connaissances sur l'Europe et l'Union européenne sont impressionnantes.";
 
     } else if (score >= 12) {
 
-        title.textContent = "TRÈS BON RÉSULTAT";
+        title.textContent =
+            "EXCELLENT !";
 
         text.textContent =
-            "Vous maîtrisez très bien les principales notions européennes.";
+            "Très bon résultat. Tu maîtrises vraiment bien les bases de l'Europe et de l'Union européenne.";
 
-    } else if (score >= 8) {
+    } else if (score >= 9) {
 
-        title.textContent = "BON RÉSULTAT";
+        title.textContent =
+            "BON TRAVAIL";
 
         text.textContent =
-            "Vos connaissances européennes sont solides.";
+            "Tu possèdes de solides connaissances européennes. Encore quelques détails à apprendre !";
+
+    } else if (score >= 6) {
+
+        title.textContent =
+            "PAS MAL";
+
+        text.textContent =
+            "Tu connais déjà plusieurs choses sur l'Europe. Il reste quelques connaissances à approfondir.";
 
     } else {
 
-        title.textContent = "MISSION TERMINÉE";
+        title.textContent =
+            "MISSION À RETENTER";
 
         text.textContent =
-            "Continuez à découvrir l'Union européenne et son fonctionnement.";
+            "Quelques révisions sur l'Union européenne devraient t'aider à améliorer ton score !";
+
     }
+
 }
 
 function restartQuiz() {
 
     currentQuestion = 0;
     score = 0;
-    answered = false;
 
-    document.getElementById("result").style.display = "none";
-    document.getElementById("quiz").style.display = "block";
-    document.querySelector(".progress-area").style.display = "block";
+    document.getElementById("quiz").style.display =
+        "block";
 
-    document.getElementById("finalLetter").style.display = "none";
+    document.querySelector(".progress-area").style.display =
+        "block";
+
+    document.getElementById("result").style.display =
+        "none";
+
+    document.getElementById("finalLetter").style.display =
+        "none";
 
     loadQuestion();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
 }
 
 loadQuestion();
